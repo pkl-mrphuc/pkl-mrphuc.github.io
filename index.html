@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Group</title>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+            background: rgb(2,0,36);
+background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(121,9,106,0.778116349078694) 35%, rgba(0,212,255,1) 100%);
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .random-box {
+            width: 800px;
+            height: 600px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            border-radius: 8px;
+        }
+
+        .random-box_title {
+            text-align: center;
+            margin: 20px auto;
+        }
+
+        .random-box_content {
+            display: flex;
+            margin-top: 8px;
+            margin: 36px;
+            height: calc(100% - 67.2px - 72px);
+        }
+
+        .random-box_content_input {
+            width: 30%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .random-box_content_shuffle {
+            width: 100px;
+            margin: auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .random-box_content_result {
+            width: calc(70% - 100px);
+            background-color: #ccc;
+            opacity: 0.8;
+            border-radius: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #000;
+        }
+
+        #shuffle-btn {
+            background: none;
+            font-size: 1rem;
+            font-weight: 700;
+            padding: 6px 12px;
+            border: 1px solid #007bff;
+            color: #007bff;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .group-box {
+            margin-bottom: 16px;
+        }
+
+        .group-box_title {
+            margin: 0;
+            padding-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .group-box_input {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .group-box_input:focus-visible {
+            border: none;
+        }
+
+        .result-item{
+            display: flex;
+            align-items: center;
+        }
+
+        .result-item_man,
+        .result-item_woman
+        {
+            margin: 12px;
+        }
+    </style>
+</head>
+<body>
+    <section class="random-box">
+        <h1 class="random-box_title">Random Group</h1>
+        <div class="random-box_content">
+            <div class="random-box_content_input">
+                <div class="group-box">
+                    <p class="group-box_title">Boy group:</p>
+                    <textarea class="group-box_input" name="Man" id="man" cols="25" rows="10"></textarea>
+                </div>
+
+                <div class="group-box">
+                    <p class="group-box_title">Girl group:</p>
+                    <textarea class="group-box_input" name="Woman" id="woman" cols="25" rows="10"></textarea>
+                </div>
+            </div>
+            <div class="random-box_content_shuffle">
+                <button id="shuffle-btn" onclick="shuffleClick()">Shuffle</button>
+            </div>
+            <div class="random-box_content_result">
+                <div id="result"></div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
+
+<script>
+function shuffleClick() {
+    let boys = document.getElementById('man').value;
+    let girls = document.getElementById('woman').value;
+
+
+    let arrBoys = shuffle(boys.split('\n'));
+    let arrGirls = shuffle(girls.split('\n'));
+
+
+    let html = ``;
+    for (let index = 0; index < arrBoys.length; index++) {
+        const boy = arrBoys[index];
+        const girl = arrGirls[index];
+        html += `<div><div class="result-item">
+                    <p class="result-item_man">${boy}</p>
+                    <div class="result-item_split"> - </div>
+                    <p class="result-item_woman">${girl}</p>
+                </div></div>`;
+    }
+
+    let resultHtml = document.getElementById('result');
+    resultHtml.innerHTML = html;
+}
+
+function shuffle(array) {
+  let currentIndex = array.length,  randomIndex;
+
+  // While there remain elements to shuffle.
+  while (currentIndex != 0) {
+
+    // Pick a remaining element.
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
+  }
+
+  return array;
+}
+</script>
